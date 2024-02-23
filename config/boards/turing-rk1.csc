@@ -20,6 +20,12 @@ IMAGE_PARTITION_TABLE="gpt"
 DEFAULT_CONSOLE="ttyS9,115200 console=ttyS2,1500000"
 OVERLAY_PREFIX="rk3588"
 
+# The u-boot version in use needs pyelftools
+function build_host_tools(){
+	display_alert "$BOARD_NAME" "Installing required pyelftools" "info"
+	pip install pyelftools
+}
+
 # Override family config for this board; let's avoid conditionals in family config.
 function post_family_config() {
 	display_alert "$BOARD" "mainline u-boot overrides" "info"

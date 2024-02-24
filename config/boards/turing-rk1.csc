@@ -3,7 +3,7 @@ BOARD_NAME="Turing RK1"
 BOARDFAMILY="rockchip-rk3588"
 BOARD_MAINTAINER=""
 BOOTCONFIG="turing-rk1-rk3588_defconfig"
-KERNEL_TARGET="collabora"
+KERNEL_TARGET="edge,legacy,collabora"
 FULL_DESKTOP="yes"
 
 BOOT_LOGO="desktop"
@@ -37,6 +37,12 @@ function post_family_config() {
 	BOOTDELAY=1 # Wait for UART interrupt to enter UMS/RockUSB mode etc
 	UBOOT_TARGET_MAP="BL31=${RKBIN_DIR}/${BL31_BLOB} ROCKCHIP_TPL=${RKBIN_DIR}/${DDR_BLOB};;u-boot-rockchip.bin u-boot-rockchip-spi.bin u-boot.itb idbloader.img idbloader-spi.img"
 	unset uboot_custom_postprocess write_uboot_platform write_uboot_platform_mtd # disable stuff from rockchip64_common; we're using binman here which does all the work already
+
+	KERNELSOURCE='https://github.com/Joshua-Riek/linux-rockchip.git'
+	KERNEL_MAJOR_MINOR="6.1" # Major and minor versions of this kernel.
+	KERNELBRANCH='branch:rk-6.1-rkr1'
+	LINUXCONFIG='linux-turing-rk1'
+	KERNEL_DRIVERS_SKIP+=(driver_rtw88)
 
 	# Just use the binman-provided u-boot-rockchip.bin, which is ready-to-go
 	function write_uboot_platform() {

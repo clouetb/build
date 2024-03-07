@@ -33,17 +33,18 @@ function post_family_config() {
 	BOOTSOURCE="https://github.com/u-boot/u-boot.git" #
 	BOOTBRANCH="commit:cb493752394adec8db1d6f5e9b8fb3c43e13f10a" #
 	BOOTPATCHDIR="u-boot-turing-rk1"
+	BL31_BLOB="rk3588_bl31_v1.38.elf"
+	DDR_BLOB="rk3588_ddr_lp4_2112MHz_lp5_2736MHz_uart9_115200_v1.11.bin"
 
 	BOOTDELAY=1 # Wait for UART interrupt to enter UMS/RockUSB mode etc
-	UBOOT_TARGET_MAP="BL31=${RKBIN_DIR}/${BL31_BLOB} ROCKCHIP_TPL=${RKBIN_DIR}/${DDR_BLOB};;u-boot-rockchip.bin u-boot-rockchip-spi.bin u-boot.itb idbloader.img idbloader-spi.img"
+	UBOOT_TARGET_MAP="BL31=${SRC}/packages/blobs/rockchip/${BL31_BLOB} ROCKCHIP_TPL=${SRC}/packages/blobs/rockchip//${DDR_BLOB};;u-boot-rockchip.bin u-boot-rockchip-spi.bin u-boot.itb idbloader.img idbloader-spi.img"
 	unset uboot_custom_postprocess write_uboot_platform write_uboot_platform_mtd # disable stuff from rockchip64_common; we're using binman here which does all the work already
 
 	KERNELSOURCE='https://github.com/Joshua-Riek/linux-rockchip.git'
-	KERNEL_MAJOR_MINOR="6.1" # Major and minor versions of this kernel.
-	KERNELBRANCH='branch:rk-6.1-rkr1'
+	KERNEL_MAJOR_MINOR="5.10" # Major and minor versions of this kernel.
+	KERNELBRANCH='branch:linux-5.10-gen-rkr6'
 	LINUXCONFIG='linux-turing-rk1'
 	KERNEL_DRIVERS_SKIP+=(driver_rtw88)
-
 	# Just use the binman-provided u-boot-rockchip.bin, which is ready-to-go
 	function write_uboot_platform() {
 		dd if=${1}/u-boot-rockchip.bin of=${2} bs=32k seek=1 conv=fsync

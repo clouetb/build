@@ -40,10 +40,10 @@ function post_family_config() {
 	UBOOT_TARGET_MAP="BL31=${SRC}/packages/blobs/rockchip/${BL31_BLOB} ROCKCHIP_TPL=${SRC}/packages/blobs/rockchip//${DDR_BLOB};;u-boot-rockchip.bin u-boot-rockchip-spi.bin u-boot.itb idbloader.img idbloader-spi.img"
 	unset uboot_custom_postprocess write_uboot_platform write_uboot_platform_mtd # disable stuff from rockchip64_common; we're using binman here which does all the work already
 
-	KERNELSOURCE='https://github.com/Joshua-Riek/linux-rockchip.git'
-	KERNEL_MAJOR_MINOR="5.10" # Major and minor versions of this kernel.
-	KERNELBRANCH='branch:linux-5.10-gen-rkr6'
-	LINUXCONFIG='linux-turing-rk1'
+	KERNELSOURCE='https://github.com/Pelochus/linux-rockchip-npu-0.9.6'
+	KERNEL_MAJOR_MINOR="6.1" # Major and minor versions of this kernel.
+	KERNELBRANCH='branch:rk-6.1-rknpu-0.9.6'
+	LINUXCONFIG='linux-rk35xx-vendor'
 	KERNEL_DRIVERS_SKIP+=(driver_rtw88)
 	# Just use the binman-provided u-boot-rockchip.bin, which is ready-to-go
 	function write_uboot_platform() {
